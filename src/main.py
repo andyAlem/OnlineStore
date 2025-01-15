@@ -29,6 +29,7 @@ class Category:
 
 
 def get_information_from_json(filepath: str):
+    """ "Функция для загрузки данных по категориям и товарам из файла JSON"""
     categories = []
     try:
         if not os.path.exists(filepath):
@@ -36,7 +37,10 @@ def get_information_from_json(filepath: str):
         with open(filepath, "r", encoding="utf-8") as file:
             data = json.load(file)
             for category_data in data:
-                category = Category(name=category_data["name"], description=category_data["description"])
+                name = category_data.get("name", "Unknown Category")
+                description = category_data.get("description", "")
+                category = Category(name=name, description=description)
+
                 for product_data in category_data.get("products", []):
                     product = Product(
                         name=product_data["name"],
