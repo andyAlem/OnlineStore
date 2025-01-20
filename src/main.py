@@ -11,7 +11,7 @@ class Product:
 
     @classmethod
     def new_product(cls, product_data: dict):
-        """Класс-метод принимает на вход параметры товара в словаре и возвращать созданный объект класса """
+        """Класс-метод принимает на вход параметры товара в словаре и возвращать созданный объект класса"""
         required_keys = ["name", "description", "price", "quantity"]
         for k in required_keys:
             if k not in product_data:
@@ -26,7 +26,7 @@ class Product:
 
     @property
     def price(self):
-        """Геттер для получения значения цены."""
+        """Геттер для получения значения цены"""
         return self.__price
 
     @price.setter
@@ -61,19 +61,15 @@ class Category:
         if not self.__products:
             return "В категории нет товаров."
         return "\n".join(
-            [
-                f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт."
-                for product in self.__products
-            ]
+            [f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт." for product in self.__products]
         )
-
 
 
 ### Дополнительное задание
 
 
 def get_information_from_json(filepath: str):
-    """ Функция для загрузки данных по категориям и товарам из файла JSON"""
+    """Функция для загрузки данных по категориям и товарам из файла JSON"""
     categories = []
     try:
         if not os.path.exists(filepath):
@@ -86,13 +82,21 @@ def get_information_from_json(filepath: str):
                 category = Category(name=name, description=description)
 
                 for product_data in category_data.get("products", []):
+                    try:
+                        price = product_data["price"]
+                        quantity = product_data["quantity"]
+                    except KeyError as e:
+                        print(f"Пропущено обязательное поле: {e}")
+                        continue
+
                     product = Product(
                         name=product_data["name"],
                         description=product_data["description"],
-                        price=product_data["price"],
-                        quantity=product_data["quantity"],
+                        price=price,
+                        quantity=quantity,
                     )
                     category.add_product(product)
+
                 categories.append(category)
     except (FileNotFoundError, json.JSONDecodeError) as e:
         print(f"Ошибка загрузки данных из файла: {e}")
@@ -117,6 +121,5 @@ def get_information_from_json(filepath: str):
 #         first_product.price = 200
 #         print(f"Обновленная цена первого товара: {first_product.price} руб.")
 #
-#         first_product.price = -50
-#         print(f"Цена после изменения(Должна остаться такой же!) : {first_product.price} руб.")
-
+#         first_product.price = 50
+#         print(f"Цена после изменения : {first_product.price} руб.")
