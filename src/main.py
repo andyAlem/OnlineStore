@@ -17,11 +17,14 @@ class Category:
     def __init__(self, name: str, description: str):
         self.name = name
         self.description = description
-        self.products = []
+        self.__products = []
         Category.category_count += 1
 
     def add_product(self, product: Product):
-        self.products.append(product)
+        """Специальный метод для добавления продукта в категорию."""
+        if not isinstance(product, Product):
+            raise ValueError("Должен быть объект класса Product")
+        self.__products.append(product)
         Category.total_products_count += 1
 
 
