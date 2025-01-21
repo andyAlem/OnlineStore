@@ -48,12 +48,13 @@ class Category:
         self.__products = []
         Category.category_count += 1
 
-    def add_product(self, product: Product):
+    def add_product(self, product):
         """Специальный метод для добавления продукта в категорию."""
-        if not isinstance(product, Product):
-            raise ValueError("Должен быть объект класса Product")
-        self.__products.append(product)
-        Category.total_products_count += 1
+        if isinstance(product, Product):
+            self.__products.append(product)
+            Category.total_products_count += 1
+        else:
+            raise ValueError("Должен быть объектом класса Product.") #через if и еlse
 
     @property
     def product(self):
