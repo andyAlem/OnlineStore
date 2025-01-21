@@ -104,23 +104,23 @@ def get_information_from_json(filepath: str):
     return categories
 
 
-# if __name__ == "__main__":
-#     filepath = "/home/andrej/Poetry_homework/OOP/data/products.json"
-#     categories = get_information_from_json(filepath)
-#
-#     for category in categories:
-#         print(f"\nКатегория: {category.name}")
-#         print(f"Описание: {category.description}")
-#         print("Список товаров:")
-#         print(category.product)
-#
-#     if categories and categories[0].product:
-#
-#         first_product = categories[0]._Category__products[0]
-#         print(f"\nТекущая цена первого товара: {first_product.price} руб.")
-#
-#         first_product.price = 200
-#         print(f"Обновленная цена первого товара: {first_product.price} руб.")
-#
-#         first_product.price = 50
-#         print(f"Цена после изменения : {first_product.price} руб.")
+if __name__ == "__main__":
+    filepath = "/home/andrej/Poetry_homework/OOP/data/products.json"
+    categories = get_information_from_json(filepath)
+
+    for category in categories:
+        print(f"\nКатегория: {category.name}")
+        print(f"Описание: {category.description}")
+        print("Список товаров:")
+        print(category.product)
+
+    if categories and categories[0].product:
+
+        first_product = categories[0]._Category__products[0]
+        print(f"\nТекущая цена первого товара: {first_product.price} руб.")
+
+        first_product.price = 200
+        print(f"Обновленная цена первого товара: {first_product.price} руб.")
+
+        first_product.price = 50
+        print(f"Цена после изменения : {first_product.price} руб.")
