@@ -48,6 +48,7 @@ class Product:
         else:
             raise TypeError("Сложение возможно только между объектами класса Product")
 
+
 class Category:
     category_count = 0
     total_products_count = 0
@@ -64,7 +65,7 @@ class Category:
             self.__products.append(product)
             Category.total_products_count += 1
         else:
-            raise ValueError("Должен быть объектом класса Product.") #через if и еlse
+            raise ValueError("Должен быть объектом класса Product.")  # через if и еlse
 
     @property
     def product(self):

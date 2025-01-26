@@ -69,9 +69,7 @@ def test_get_information_from_json_incomplete_product():
             {
                 "name": "Category 1",
                 "description": "Description for Category 1",
-                "products": [
-                    {"name": "Incomplete Product", "description": "Missing price and quantity"}
-                ],
+                "products": [{"name": "Incomplete Product", "description": "Missing price and quantity"}],
             }
         ]
     )
@@ -86,10 +84,11 @@ def test_get_information_from_json_incomplete_product():
 
 
 def test_category_add_product_increments_count(sample_category, sample_product):
-    """ Тест на проверку увеличения счетчика продуктов при добавлении"""
+    """Тест на проверку увеличения счетчика продуктов при добавлении"""
     initial_total_count = Category.total_products_count
     sample_category.add_product(sample_product)
     assert Category.total_products_count == initial_total_count + 1
+
 
 def test_product_str(sample_product):
     """Тест строкового представления продукта"""
