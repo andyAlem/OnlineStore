@@ -3,7 +3,7 @@ from unittest.mock import mock_open, patch
 
 import pytest
 
-from src.main import Category, Product, get_information_from_json
+from src.main import Category, Product, get_information_from_json, Smartphone, LawnGrass
 
 
 def test_product_price_setter_positive(sample_product):
@@ -122,3 +122,56 @@ def test_product_addition_type_error(sample_product):
     """Тест ошибки типа при сложении продукта с другим объектом"""
     with pytest.raises(TypeError, match="Сложение возможно только между объектами класса Product"):
         sample_product + "Not a Product"
+
+
+def test_product_addition_same_class():
+    """Тест сложения продуктов одного типа"""
+    smartphone_a = Smartphone("iPhone 14", "Apple Smartphone", 1000.0, 3, "iPhone 14", "256GB", "Black", "High")
+    smartphone_b = Smartphone(
+        "Samsung Galaxy S23", "Samsung Smartphone", 900.0, 5, "Galaxy S23", "128GB", "Blue", "High"
+    )
+    total_cost = smartphone_a + smartphone_b
+    expected_total = (1000.0 * 3) + (900.0 * 5)
+    assert total_cost == expected_total
+
+
+def test_product_addition_different_class():
+    """Тест ошибки сложения продуктов разных типов"""
+    smartphone = Smartphone("iPhone 14", "Apple Smartphone", 1000.0, 3, "iPhone 14", "256GB", "Black", "High")
+    lawn_grass = LawnGrass("Kentucky Bluegrass", "Grass Seeds", 20.0, 100, "USA", "7-10 days", "Green")
+    with pytest.raises(TypeError, match="Сложение возможно только между объектами класса Product"):
+        _ = smartphone + lawn_grass
+
+
+def test_category_add_product_valid_types():
+    """Тест добавления корректных типов продуктов в категорию"""
+    category = Category("Garden", "All garden-related products")
+    smartphone = Smartphone("iPhone 14", "Apple Smartphone", 1000.0, 3, "iPhone 14", "256GB", "Black", "High")
+    lawn_grass = LawnGrass("Kentucky Bluegrass", "Grass Seeds", 20.0, 100, "USA", "7-10 days", "Green")
+    category.add_product(smartphone)
+    category.add_product(lawn_grass)
+    assert len(category._Category__products) == 2
+
+
+def test_category_add_product_invalid_type():
+    category = Category(name="Test ", description="Test ")
+
+    with pytest.raises(TypeError, match="Должен быть объектом класса Product."):
+        category.add_product("Не продукт")
+
+
+def test_smartphone_properties():
+    """Тест дополнительных свойств класса Smartphone"""
+    smartphone = Smartphone("iPhone 14", "Apple Smartphones", 1000.0, 19, "iPhone 14", "256GB", "Pink", "High")
+    assert smartphone.model == "iPhone 14"
+    assert smartphone.memory == "256GB"
+    assert smartphone.color == "Pink"
+    assert smartphone.efficiency == "High"
+
+
+def test_lawn_grass_properties():
+    """Тест дополнительных свойств класса LawnGrass"""
+    lawn_grass = LawnGrass("Grass", "Grass Green", 11.0, 101, "Canada", "7-9 days", "Red")
+    assert lawn_grass.country == "Canada"
+    assert lawn_grass.germination_period == "7-9 days"
+    assert lawn_grass.color == "Red"

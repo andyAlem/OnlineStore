@@ -6,7 +6,7 @@ class Product:
     def __init__(self, name: str, description: str, price: float, quantity: int):
         self.name = name
         self.description = description
-        self.__price = price
+        self.price = price
         self.quantity = quantity
 
     @classmethod
@@ -43,10 +43,48 @@ class Product:
 
     def __add__(self, other):
         """Сложение продуктов для подсчета общей стоимости"""
-        if isinstance(other, Product):
+        if type(self) == type(other):  # проверка через type()
             return self.price * self.quantity + other.price * other.quantity
         else:
-            raise TypeError("Сложение возможно только между объектами класса Product")
+            raise TypeError("Сложение возможно только между объектами класса Product.")
+
+
+class Smartphone(Product):
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        model: str,
+        memory: str,
+        color: str,
+        efficiency: str,
+    ):
+        super().__init__(name, description, price, quantity)
+        self.model = model
+        self.memory = memory
+        self.color = color
+        self.efficiency = efficiency
+
+
+class LawnGrass(Product):
+    """Класс для газонной травы?"""
+
+    def __init__(
+        self,
+        name: str,
+        description: str,
+        price: float,
+        quantity: int,
+        country: str,
+        germination_period: str,
+        color: str,
+    ):
+        super().__init__(name, description, price, quantity)
+        self.country = country
+        self.germination_period = germination_period
+        self.color = color
 
 
 class Category:
@@ -65,7 +103,7 @@ class Category:
             self.__products.append(product)
             Category.total_products_count += 1
         else:
-            raise ValueError("Должен быть объектом класса Product.")  # через if и еlse
+            raise TypeError("Должен быть объектом класса Product.")  # через if и еlse
 
     @property
     def product(self):
