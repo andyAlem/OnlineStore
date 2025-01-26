@@ -37,6 +37,16 @@ class Product:
         else:
             self.__price = new_price
 
+    def __str__(self):
+        """Строковое представление продукта для класса Product"""
+        return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт."
+
+    def __add__(self, other):
+        """Сложение продуктов для подсчета общей стоимости"""
+        if isinstance(other, Product):
+            return self.price * self.quantity + other.price * other.quantity
+        else:
+            raise TypeError("Сложение возможно только между объектами класса Product")
 
 class Category:
     category_count = 0
@@ -64,6 +74,11 @@ class Category:
         return "\n".join(
             [f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт." for product in self.__products]
         )
+
+    def __str__(self):
+        """Строковое представление категории для класса Category"""
+        total_quantity = sum(product.quantity for product in self.__products)
+        return f"{self.name}, количество продуктов: {total_quantity} шт."
 
 
 ### Дополнительное задание
@@ -104,23 +119,23 @@ def get_information_from_json(filepath: str):
     return categories
 
 
-if __name__ == "__main__":
-    filepath = "/home/andrej/Poetry_homework/OOP/data/products.json"
-    categories = get_information_from_json(filepath)
-
-    for category in categories:
-        print(f"\nКатегория: {category.name}")
-        print(f"Описание: {category.description}")
-        print("Список товаров:")
-        print(category.product)
-
-    if categories and categories[0].product:
-
-        first_product = categories[0]._Category__products[0]
-        print(f"\nТекущая цена первого товара: {first_product.price} руб.")
-
-        first_product.price = 200
-        print(f"Обновленная цена первого товара: {first_product.price} руб.")
-
-        first_product.price = 50
-        print(f"Цена после изменения : {first_product.price} руб.")
+# if __name__ == "__main__":
+#     filepath = "/home/andrej/Poetry_homework/OOP/data/products.json"
+#     categories = get_information_from_json(filepath)
+#
+#     for category in categories:
+#         print(f"\nКатегория: {category.name}")
+#         print(f"Описание: {category.description}")
+#         print("Список товаров:")
+#         print(category.product)
+#
+#     if categories and categories[0].product:
+#
+#         first_product = categories[0]._Category__products[0]
+#         print(f"\nТекущая цена первого товара: {first_product.price} руб.")
+#
+#         first_product.price = 200
+#         print(f"Обновленная цена первого товара: {first_product.price} руб.")
+#
+#         first_product.price = 50
+#         print(f"Цена после изменения : {first_product.price} руб.")

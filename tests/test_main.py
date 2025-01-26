@@ -86,7 +86,40 @@ def test_get_information_from_json_incomplete_product():
 
 
 def test_category_add_product_increments_count(sample_category, sample_product):
-    """Проверка увеличения счетчика продуктов при добавлении"""
+    """ Тест на проверку увеличения счетчика продуктов при добавлении"""
     initial_total_count = Category.total_products_count
     sample_category.add_product(sample_product)
     assert Category.total_products_count == initial_total_count + 1
+
+def test_product_str(sample_product):
+    """Тест строкового представления продукта"""
+    expected_output = "Laptop, 1000.99 руб. Остаток: 5 шт."
+    assert str(sample_product) == expected_output
+
+
+def test_category_str_with_no_products(sample_category):
+    """Тест строкового представления категории без продуктов"""
+    expected_output = "Electronics, количество продуктов: 0 шт."
+    assert str(sample_category) == expected_output
+
+
+def test_category_str_with_products(sample_category, sample_product):
+    """Тест на строковый вывод категории с продуктами"""
+    sample_category.add_product(sample_product)
+    expected_output = "Electronics, количество продуктов: 5 шт."
+    assert str(sample_category) == expected_output
+
+
+def test_product_addition(sample_product):
+    """Тест сложения продуктов для подсчета полной стоимости"""
+    product_a = Product("PS4", "PS4 Mini", 499.99, 5)
+    product_b = Product("Monitor", "Monitor Dell Vepro", 599.99, 10)
+    total_cost = product_a + product_b
+    expected_total = (499.99 * 5) + (599.99 * 10)
+    assert total_cost == expected_total
+
+
+def test_product_addition_type_error(sample_product):
+    """Тест ошибки типа при сложении продукта с другим объектом"""
+    with pytest.raises(TypeError, match="Сложение возможно только между объектами класса Product"):
+        sample_product + "Not a Product"
