@@ -89,3 +89,35 @@ def test_product_addition_type_error(sample_product):
     """Тест: сложение объекта Product с не-Product должно вызывать TypeError"""
     with pytest.raises(TypeError, match="Сложение возможно только между объектами класса Product"):
         sample_product + "Not a Product"
+
+
+#######
+
+
+def test_smartphone_object():
+    """Тест на правильное создание объекта Smartphone"""
+    phone = Smartphone("iPhone 15", "Apple Smartphone", 1299.99, 10, "15 Pro", "256GB", "Silver", "A17 Bionic")
+    assert phone.name == "iPhone 15"
+    assert phone.price == 1299.99
+    assert phone.quantity == 10
+    assert phone.model == "15 Pro"
+    assert phone.memory == "256GB"
+    assert phone.color == "Silver"
+    assert phone.efficiency == "A17 Bionic"
+
+
+def test_lawngrass_object():
+    """Тест на правильное создание объекта LawnGrass"""
+    grass = LawnGrass("GreenMax", "Premium grass", 19.99, 50, "Germany", "7 days", "Green")
+    assert grass.name == "GreenMax"
+    assert grass.price == 19.99
+    assert grass.quantity == 50
+    assert grass.country == "Germany"
+    assert grass.germination_period == "7 days"
+    assert grass.color == "Green"
+
+
+def test_product_creation_zero_quantity():
+    """Тест на ошибку при попытке создать продукт с нулевым количеством"""
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен"):
+        Product("PS5", "Sony PlayStation 5", 499.99, 0)

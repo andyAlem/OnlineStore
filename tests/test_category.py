@@ -56,3 +56,18 @@ def test_get_information_from_json_incomplete_product():
     assert len(categories) == 1
     assert categories[0].name == "Category 1"
     assert str(categories[0].product) == "В категории нет товаров."
+
+
+def test_category_price_average_no_products(sample_category):
+    """Тест расчета средней цены, если в категории нет товаров"""
+    assert sample_category.price_average() == 0
+
+
+def test_category_price_average_with_products(sample_category, sample_product):
+    """Тест расчета средней цены, если в категории есть товары"""
+    sample_category.add_product(sample_product)
+
+    product2 = sample_product.__class__("Tablet", "Android Tablet", 500.50, 3)
+    sample_category.add_product(product2)
+
+    assert sample_category.price_average() == 750.75

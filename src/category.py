@@ -28,6 +28,15 @@ class Category:
             [f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт." for product in self.__products]
         )
 
+    def price_average(self):  # считаем текущую категорию
+        """Метод для расчета средней цены товаров в категории"""
+        try:
+            total_price = sum(product.price for product in self.__products)
+            total_count = len(self.__products)
+            return round(total_price / total_count, 2)
+        except ZeroDivisionError:
+            return 0
+
     def __str__(self):
         """Строковое представление категории для класса Category"""
         total_quantity = sum(product.quantity for product in self.__products)
